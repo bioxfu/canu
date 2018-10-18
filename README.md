@@ -21,7 +21,7 @@ cp example/init.sh .
 ## https://pacbiofileformats.readthedocs.io/en/3.0/Primer.html
 ## http://seqanswers.com/forums/showpost.php?p=202171&postcount=9
 
-nohup find $DATA_DIR/*/*/*subreads.bam | xargs -I {} samtools fasta {} | gzip -c > raw/$NAME.subreads.fasta.gz &
+nohup bash -c "find $DATA_DIR/*/*/*subreads.bam | xargs -I {} samtools fasta {} | gzip -c > raw/$NAME.subreads.fasta.gz" &
 ```
 
 #### Run Canu on HPC
