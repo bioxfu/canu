@@ -26,6 +26,7 @@ nohup bash -c "find $DATA_DIR/*/*/*subreads.bam | xargs -I {} samtools fasta {} 
 
 #### Run Canu on HPC
 ```
+## head4 IP (10.41.25.99)
 ## correct
 ~/canu-1.7.1/Linux-amd64/bin/canu -correct -p ${NAME} -d ${NAME}-trim -pacbio-raw raw/${NAME}.subreads.fasta.gz genomeSize=${GENOME_SIZE} gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100
 ## trim
@@ -33,6 +34,8 @@ nohup bash -c "find $DATA_DIR/*/*/*subreads.bam | xargs -I {} samtools fasta {} 
 ## assemble
 ~/canu-1.7.1/Linux-amd64/bin/canu -assemble -p ${NAME} -d ${NAME}-erate-0.045 -pacbio-corrected ${NAME}-trim/${NAME}.trimmedReads.fasta.gz genomeSize=${GENOME_SIZE} correctedErrorRate=0.045 gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100 redMemory=60 oeaMemory=60
 
+## check the status of your job
+squeue -l
 ```
 
 #### Evaluate the assembly
