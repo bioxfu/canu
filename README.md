@@ -27,6 +27,7 @@ nohup bash -c "find $DATA_DIR/*/*/*subreads.bam | xargs -I {} samtools fasta {} 
 #### Run Canu on HPC
 ```
 ## login head4 IP (10.41.25.99)
+ssh head4
 
 ## you can run it in three steps:
 ## step1: correct
