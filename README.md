@@ -49,3 +49,33 @@ squeue -l
 module add quast/4.6.1
 quast.py ${NAME}.contigs.fasta 
 ```
+
+#### Tips
+When you see the following error in *canu.out*:
+```
+job correction/${NAME}.ovlStore.BUILDING/1008 FAILED
+```
+and you check the logs: *correction/${NAME}.ovlStore.BUILDING/logs/2-sort.59339_1008.out*
+
+you would see the info like this:
+```
+Running job 1008 based on SLURM_ARRAY_TASK_ID=1008 and offset=0.
+
+Attempting to increase maximum allowed processes and open files.
+  Max processes per user limited to 514848, no increase possible.
+  Changed max open files from 51200 to 65536 (max 65536).
+
+Job 1008 is finished (remove './1008' or -force to try again).
+```
+How to solve this problem:
+
+1. edit the file: *correction/${NAME}.ovlStore.BUILDING/scripts/2-sort.sh*
+
+2. add **-force** to ovStoreSorter
+```
+$bin/ovStoreSorter -force
+```
+3. run Canu again.
+
+if you still can't fix the problem, just remove the *${NAME}.ovlStore.BUILDING* and run it again.
+
