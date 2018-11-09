@@ -42,6 +42,9 @@ ssh head4
 
 ## check the status of your job
 squeue -l
+
+## remove all of your job
+scancel -u xfu
 ```
 
 #### Evaluate the assembly
@@ -50,7 +53,7 @@ module add quast/4.6.1
 quast.py ${NAME}.contigs.fasta 
 ```
 
-#### Tips
+#### Tip 1
 When you see the following error in *canu.out*:
 ```
 job correction/${NAME}.ovlStore.BUILDING/1008 FAILED
@@ -79,3 +82,17 @@ $bin/ovStoreSorter -force
 
 if you still can't fix the problem, just remove the *${NAME}.ovlStore.BUILDING* and run it again.
 
+#### Tip 2
+If Bogart failed again and again, run it on node2 with 1024Gb memory (-M 1024)
+```
+ssh node2 
+cd ${NAME}-erate-0.045/unitigging/4-unitigger
+
+~/canu-1.7.1/Linux-amd64/bin/bogart -G ../${NAME}.gkpStore -O ../${NAME}.ovlStore -o ./${NAME} -gs 1400000000 -eg 0.045 -eM 0.045 -mo 500 -dg 6 -db 6 -dr 3 -ca 2100 -cp 200 -threads 16 -M 1024 -unassembled 2 0 1.0 0.5 3 > ./unitigger.err 2>&1
+
+mv ./qq74.ctgStore ../qq74.ctgStore
+mv ./qq74.utgStore ../qq74.utgStore
+~/canu-1.7.1/Linux-amd64/bin/tgStoreDump -G ../qq74.gkpStore -T ../qq74.ctgStore 1 -sizes -s 1400000000 > ../qq74.ctgStore/seqDB.v001.sizes.txt
+
+# run Canu again 
+```
