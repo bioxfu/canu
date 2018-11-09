@@ -29,5 +29,5 @@ cat Gossypium_trilobum.trimmedReads.mito.blast.out|cut -f1,7,8|sort -k1,1 -k2,2n
 
 cd ..
 
-script/chlo_mito_aln_prop.R
+Rscript script/chlo_mito_aln_prop.R
 
