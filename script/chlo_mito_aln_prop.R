@@ -1,10 +1,10 @@
-reads_len <- read.table('chlo_mito/Gossypium_trilobum.trimmedReads.chlo.mito.reads.length')
+reads_len <- read.table('chlo_mito/Gossypium_trilobum.trimmedReads.chlo.mito.reads.length', stringsAsFactors = F)
 colnames(reads_len) <- c('id', 'tot.length')
 
-mito <- read.table('chlo_mito/Gossypium_trilobum.trimmedReads.mito.blast.out.aln.length')
+mito <- read.table('chlo_mito/Gossypium_trilobum.trimmedReads.mito.blast.out.maxaln.length', stringsAsFactors = F)
 colnames(mito) <- c('id', 'mito.aln.length')
 
-chlo <- read.table('chlo_mito/Gossypium_trilobum.trimmedReads.chlo.blast.out.aln.length')
+chlo <- read.table('chlo_mito/Gossypium_trilobum.trimmedReads.chlo.blast.out.maxaln.length', stringsAsFactors = F)
 colnames(chlo) <- c('id', 'chlo.aln.length')
 
 result <- merge(reads_len, mito, by.x = 1, by.y = 1, all.x = T)
@@ -23,3 +23,7 @@ hist(result$mito.aln.percent, main = 'mitochondria', xlab = 'Percentage of Read 
 hist(result$chlo.aln.percent, main = 'chloroplast', xlab = 'Percentage of Read Length (%)')
 dev.off()
 
+for (p in seq(50, 100, 10)){
+  write.table(result$id[result$mito.aln.percent >= p], paste0('chlo_mito/read_id_mito_percent_', p), quote = F, row.names = F, col.names = F)
+  write.table(result$id[result$chlo.aln.percent >= p], paste0('chlo_mito/read_id_chlo_percent_', p), quote = F, row.names = F, col.names = F)
+}
