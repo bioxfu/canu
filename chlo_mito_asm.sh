@@ -88,3 +88,34 @@ Rscript ../script/BLAST_viewer.R mito_percent_70.contigs.blast.out mito_percent_
 Rscript ../script/BLAST_viewer.R mito_percent_60.contigs.blast.out mito_percent_60.contigs_length
 Rscript ../script/BLAST_viewer.R mito_percent_50.contigs.blast.out mito_percent_50.contigs_length
 
+
+
+scp xfu@10.41.25.100:/cluster/home/xfu/Project/Gossypium_trilobum/canu/chlo_mito/chlo_percent_100/chlo_percent_100.contigs.fasta .; samtools faidx chlo_percent_100.contigs.fasta
+scp xfu@10.41.25.100:/cluster/home/xfu/Project/Gossypium_trilobum/canu/chlo_mito/chlo_percent_90/chlo_percent_90.contigs.fasta .; samtools faidx chlo_percent_90.contigs.fasta
+scp xfu@10.41.25.100:/cluster/home/xfu/Project/Gossypium_trilobum/canu/chlo_mito/chlo_percent_80/chlo_percent_80.contigs.fasta .; samtools faidx chlo_percent_80.contigs.fasta
+scp xfu@10.41.25.100:/cluster/home/xfu/Project/Gossypium_trilobum/canu/chlo_mito/chlo_percent_70/chlo_percent_70.contigs.fasta .; samtools faidx chlo_percent_70.contigs.fasta
+scp xfu@10.41.25.100:/cluster/home/xfu/Project/Gossypium_trilobum/canu/chlo_mito/chlo_percent_60/chlo_percent_60.contigs.fasta .; samtools faidx chlo_percent_60.contigs.fasta
+scp xfu@10.41.25.100:/cluster/home/xfu/Project/Gossypium_trilobum/canu/chlo_mito/chlo_percent_50/chlo_percent_50.contigs.fasta .; samtools faidx chlo_percent_50.contigs.fasta
+
+cut -f1,2 chlo_percent_100.contigs.fasta.fai|sort -nr -k2 > chlo_percent_100.contigs_length 10000
+cut -f1,2 chlo_percent_90.contigs.fasta.fai |sort -nr -k2 > chlo_percent_90.contigs_length 10000
+cut -f1,2 chlo_percent_80.contigs.fasta.fai |sort -nr -k2 > chlo_percent_80.contigs_length 10000
+cut -f1,2 chlo_percent_70.contigs.fasta.fai |sort -nr -k2 > chlo_percent_70.contigs_length 10000
+cut -f1,2 chlo_percent_60.contigs.fasta.fai |sort -nr -k2 > chlo_percent_60.contigs_length 10000
+cut -f1,2 chlo_percent_50.contigs.fasta.fai |sort -nr -k2 > chlo_percent_50.contigs_length 10000
+
+#blastn -num_threads 30 -query chlo_percent_100.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 7 -evalue 1e-200 
+blastn -num_threads 30 -query chlo_percent_100.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > chlo_percent_100.contigs.blast.out
+blastn -num_threads 30 -query chlo_percent_90.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > chlo_percent_90.contigs.blast.out
+blastn -num_threads 30 -query chlo_percent_80.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > chlo_percent_80.contigs.blast.out
+blastn -num_threads 30 -query chlo_percent_70.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > chlo_percent_70.contigs.blast.out
+blastn -num_threads 30 -query chlo_percent_60.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > chlo_percent_60.contigs.blast.out
+blastn -num_threads 30 -query chlo_percent_50.contigs.fasta -db ../ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > chlo_percent_50.contigs.blast.out
+
+Rscript ../script/BLAST_viewer.R chlo_percent_100.contigs.blast.out chlo_percent_100.contigs_length 10000
+Rscript ../script/BLAST_viewer.R chlo_percent_90.contigs.blast.out chlo_percent_90.contigs_length 10000
+Rscript ../script/BLAST_viewer.R chlo_percent_80.contigs.blast.out chlo_percent_80.contigs_length 10000
+Rscript ../script/BLAST_viewer.R chlo_percent_70.contigs.blast.out chlo_percent_70.contigs_length 10000
+Rscript ../script/BLAST_viewer.R chlo_percent_60.contigs.blast.out chlo_percent_60.contigs_length 10000
+Rscript ../script/BLAST_viewer.R chlo_percent_50.contigs.blast.out chlo_percent_50.contigs_length 10000
+
