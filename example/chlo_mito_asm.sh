@@ -133,3 +133,14 @@ NAME=Gossypium_trilobum_nucl
 GENOME_SIZE=851m
 ~/canu-1.7.1/Linux-amd64/bin/canu -assemble -p ${NAME} -d ${NAME}-erate-0.045 -pacbio-corrected chlo_mito/${NAME}.trimmedReads.fasta.gz genomeSize=${GENOME_SIZE} correctedErrorRate=0.045 gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100 redMemory=60 oeaMemory=60
 
+# correct the assembly using NGS data by Pilon
+# see pilon workflow for details
+
+# check the corrected version of mito and chlo contigs
+blastn -num_threads 30 -query pilon/Gossypium_trilobum_mito.round4.fasta -db ref/Gtrilobum_mitochondrion.fasta -outfmt 6 -evalue 1e-200 > pilon/Gossypium_trilobum_mito.round4.blast.out
+samtools faidx pilon/Gossypium_trilobum_mito.round4.fasta; cut -f1,2 pilon/Gossypium_trilobum_mito.round4.fasta.fai|sort > pilon/Gossypium_trilobum_mito.round4.length
+Rscript ./script/BLAST_viewer.R pilon/Gossypium_trilobum_mito.round4.blast.out pilon/Gossypium_trilobum_mito.round4.length 10000
+
+blastn -num_threads 30 -query pilon/Gossypium_trilobum_chlo.round4.fasta -db ref/Gtrilobum_chloroplast.fasta -outfmt 6 -evalue 1e-200 > pilon/Gossypium_trilobum_chlo.round4.blast.out
+samtools faidx pilon/Gossypium_trilobum_chlo.round4.fasta; cut -f1,2 pilon/Gossypium_trilobum_chlo.round4.fasta.fai|sort > pilon/Gossypium_trilobum_chlo.round4.length
+Rscript ./script/BLAST_viewer.R pilon/Gossypium_trilobum_chlo.round4.blast.out pilon/Gossypium_trilobum_chlo.round4.length 10000
