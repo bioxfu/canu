@@ -31,14 +31,16 @@ ssh head4
 
 ## you can run it in three steps:
 ## step1: correct
-~/canu-1.7.1/Linux-amd64/bin/canu -correct -p ${NAME} -d ${NAME}-trim -pacbio-raw raw/${NAME}.subreads.fasta.gz genomeSize=${GENOME_SIZE} gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100
+~/canu-1.7.1/Linux-amd64/bin/canu -correct -p ${NAME} -d ${NAME}-trim-corOutCoverage40 -pacbio-raw raw/${NAME}.subreads.fastq.gz genomeSize=${GENOME_SIZE} gnuplotImageFormat=svg gridOptions="-t 1000:00:00 --mem-per-cpu=8g" gridEngine=slurm canuIterationMax=100 corOutCoverage=40
+
 ## step2: trim
-~/canu-1.7.1/Linux-amd64/bin/canu -trim -p ${NAME} -d ${NAME}-trim -pacbio-corrected ${NAME}-trim/${NAME}.correctedReads.fasta.gz genomeSize=${GENOME_SIZE} gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100
+~/canu-1.7.1/Linux-amd64/bin/canu -trim -p ${NAME} -d ${NAME}-trim-corOutCoverage40 -pacbio-corrected ${NAME}-trim-corOutCoverage40/${NAME}.correctedReads.fasta.gz genomeSize=${GENOME_SIZE} gnuplotImageFormat=svg gridOptions="-t 1000:00:00 --mem-per-cpu=8g" gridEngine=slurm canuIterationMax=100 corOutCoverage=40
+
 ## step3: assemble
-~/canu-1.7.1/Linux-amd64/bin/canu -assemble -p ${NAME} -d ${NAME}-erate-0.045 -pacbio-corrected ${NAME}-trim/${NAME}.trimmedReads.fasta.gz genomeSize=${GENOME_SIZE} correctedErrorRate=0.045 gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100 redMemory=60 oeaMemory=60
+~/canu-1.7.1/Linux-amd64/bin/canu -assemble -p ${NAME} -d ${NAME}-erate-0.045-corOutCoverage40 -pacbio-corrected ${NAME}-trim-corOutCoverage40/${NAME}.trimmedReads.fasta.gz genomeSize=${GENOME_SIZE} correctedErrorRate=0.045 gnuplotImageFormat=svg gridOptions="-t 1000:00:00 --mem-per-cpu=8g" gridEngine=slurm canuIterationMax=100 redMemory=60 oeaMemory=60 corOutCoverage=40 
 
 ## Or in one step
-~/canu-1.7.1/Linux-amd64/bin/canu -p ${NAME} -d ${NAME}-erate-0.045 -pacbio-raw raw/${NAME}.subreads.fasta.gz genomeSize=${GENOME_SIZE} correctedErrorRate=0.045 gnuplotImageFormat=svg gridOptions="-t 1000:00:00" gridEngine=slurm canuIterationMax=100 redMemory=60 oeaMemory=60
+~/canu-1.7.1/Linux-amd64/bin/canu -p ${NAME} -d ${NAME}-erate-0.045-corOutCoverage40 -pacbio-raw raw/${NAME}.subreads.fasta.gz genomeSize=${GENOME_SIZE} correctedErrorRate=0.045 gnuplotImageFormat=svg gridOptions="-t 1000:00:00 --mem-per-cpu=8g" gridEngine=slurm canuIterationMax=100 redMemory=60 oeaMemory=60 corOutCoverage=40
 
 ## check the status of your job
 squeue -l
