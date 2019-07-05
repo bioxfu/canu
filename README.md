@@ -98,3 +98,21 @@ mv ./qq74.utgStore ../qq74.utgStore
 
 # run Canu again 
 ```
+
+#### Tip 3
+If meryl failed again and again, run it on node2
+```
+ssh node2 
+cd Cq_PBL191261-trim-corOutCoverage40/trimming/0-mercounts
+
+/cluster/home/xfu/canu-1.7.1/Linux-amd64/bin/meryl -B -C -L 2 -v -m 22 -threads 32 -memory 209715 -s ../Cq_PBL191261.gkpStore -o ./Cq_PBL191261.ms22.WORKING 
+
+mv ./Cq_PBL191261.ms22.WORKING.mcdat ./Cq_PBL191261.ms22.mcdat
+mv ./Cq_PBL191261.ms22.WORKING.mcidx ./Cq_PBL191261.ms22.mcidx
+
+/cluster/home/xfu/canu-1.7.1/Linux-amd64/bin/meryl -Dh -s ./Cq_PBL191261.ms22 > ./Cq_PBL191261.ms22.histogram.WORKING 2> ./Cq_PBL191261.ms22.histogram.info 
+mv -f ./Cq_PBL191261.ms22.histogram.WORKING ./Cq_PBL191261.ms22.histogram
+
+/cluster/home/xfu/canu-1.7.1/Linux-amd64/bin/estimate-mer-threshold -h ./Cq_PBL191261.ms22.histogram -c 38 > ./Cq_PBL191261.ms22.estMerThresh.out.WORKING 2> ./Cq_PBL191261.ms22.estMerThresh.err
+mv ./Cq_PBL191261.ms22.estMerThresh.out.WORKING ./Cq_PBL191261.ms22.estMerThresh.out
+```
