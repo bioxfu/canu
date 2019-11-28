@@ -116,3 +116,39 @@ mv -f ./Cq_PBL191261.ms22.histogram.WORKING ./Cq_PBL191261.ms22.histogram
 /cluster/home/xfu/canu-1.7.1/Linux-amd64/bin/estimate-mer-threshold -h ./Cq_PBL191261.ms22.histogram -c 38 > ./Cq_PBL191261.ms22.estMerThresh.out.WORKING 2> ./Cq_PBL191261.ms22.estMerThresh.err
 mv ./Cq_PBL191261.ms22.estMerThresh.out.WORKING ./Cq_PBL191261.ms22.estMerThresh.out
 ```
+
+#### Tip 4
+If cns failed again and again, run it on node2
+```
+ssh node2 
+/cluster/home/xfu/Project/Chia/canu/Chia-erate-0.045-corOutCoverage40/unitigging/5-consensus
+
+## check which jobid is failed 
+find *cns/*WORKING
+# for example: utgcns/0002.cns.WORKING
+
+tag=utg
+jobid=0002
+
+/cluster/home/xfu/canu-1.7.1/Linux-amd64/bin/utgcns \
+  -G ../Chia.${tag}Store/partitionedReads.gkpStore \
+  -T ../Chia.${tag}Store 1 $jobid \
+  -O ./${tag}cns/$jobid.cns.WORKING \
+  -maxcoverage 40 \
+  -e 0.045 \
+  -pbdagcon \
+  -edlib    \
+  -threads 2-8
+
+mv ./${tag}cns/$jobid.cns.WORKING ./${tag}cns/$jobid.cns 
+```
+
+#### Tip 5
+If alignGFA failed again and again, run it on node2
+```
+cd /cluster/home/xfu/Project/Chia/canu/Chia-erate-0.045-corOutCoverage40/unitigging/4-unitigger
+# remove the files generated after alignGFA.sh
+nohup ./alignGFA.sh &
+```
+
+
